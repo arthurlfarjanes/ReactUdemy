@@ -1,64 +1,84 @@
-// CSS
-import './App.css'
+import "./App.css";
 
-// React
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import { useAuthentication } from './hooks/useAuthentication'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 
-// Firebase
-import { onAuthStateChanged } from 'firebase/auth'
+// hooks
+import { useState, useEffect } from "react";
+import { useAuthentication } from "./hooks/useAuthentication";
 
-// Pages
-import Home from './pages/Home/Home'
-import About from './pages/About/About'
-import Login from './pages/Login/Login'
-import Cadastro from './pages/Cadastro/Cadastro'
-import CreatePost from './pages/CreatePost/CreatePost'
-import Dashboard from './pages/Dashboard/Dashboard'
+// pages
+import Home from "./pages/Home/Home";
+import About from "./pages/About/About";
+// import Post from "./pages/Post/Post";
 
-// Components
-import Footer from './components/Footer/Footer'
-import Navbar from './components/Navbar/Navbar'
+// components
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+import CreatePost from "./pages/CreatePost/CreatePost";
+// import Search from "./pages/Search/Search";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import Dashboard from "./pages/Dashboard/Dashboard";
+// import EditPost from "./pages/EditPost/EditPost";
 
-// Context
-import { AuthProvider } from './context/AuthContext'
+// context
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
+  const [user, setUser] = useState(undefined);
+  const { auth } = useAuthentication();
 
-  const [user, setUser] = useState(undefined)
-  const {auth} = useAuthentication()
-
-  const loadingUser = user === undefined
+  const loadingUser = user === undefined;
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      setUser(user)
-    })
-  }, [auth])
+      setUser(user);
+    });
+  }, [auth]);
 
-  if(loadingUser) {
-    return <p>Carregando...</p>
+  if (loadingUser) {
+    return <p>Carregando...</p>;
   }
 
   return (
-    <AuthProvider value={ user }>
-      <BrowserRouter>
-        <Navbar />
-        <div className='container'>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/login' element={ user ? <Navigate to="/" /> : <Login />} />
-            <Route path='/cadastro' element={ user ? <Navigate to="/" /> : <Cadastro />} />
-            <Route path='/post/create' element={ user ? <CreatePost /> : <Navigate to="/" />} />
-            <Route path='/dashboard' element={ user ? <Dashboard /> : <Navigate to="/" />} />
-          </Routes>
-        </div>
-        <Footer />
-      </BrowserRouter>
-    </AuthProvider>
-  )
+    <div className="App">
+      <AuthProvider value={{ user }}>
+        <BrowserRouter>
+          <Navbar />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route
+                path="/posts/create"
+                element={user ? <CreatePost /> : <Navigate to="/login" />}
+              />
+              {/* <Route
+                path="/posts/edit/:id"
+                element={user ? <EditPost /> : <Navigate to="/login" />}
+              /> */}
+              {/* <Route path="/posts/:id" element={<Post />} />
+              <Route path="/search" element={<Search />} /> */}
+              <Route
+                path="/login"
+                element={!user ? <Login /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/register"
+                element={!user ? <Register /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/dashboard"
+                element={user ? <Dashboard /> : <Navigate to="/login" />}
+              />
+            </Routes>
+          </div>
+          <Footer />
+        </BrowserRouter>
+      </AuthProvider>
+    </div>
+  );
 }
 
-export default App
+export default App;
