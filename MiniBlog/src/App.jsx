@@ -10,7 +10,7 @@ import { useAuthentication } from "./hooks/useAuthentication";
 // pages
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
-// import Post from "./pages/Post/Post";
+import Post from "./pages/Post/Post";
 
 // components
 import Navbar from "./components/Navbar/Navbar";
@@ -58,7 +58,7 @@ function App() {
                 path="/posts/edit/:id"
                 element={user ? <EditPost /> : <Navigate to="/login" />}
               /> */}
-              {/* <Route path="/posts/:id" element={<Post />} /> */}
+              <Route path="/posts/:id" element={<Post />} />
               <Route path="/search" element={<Search />} />
               <Route
                 path="/login"
