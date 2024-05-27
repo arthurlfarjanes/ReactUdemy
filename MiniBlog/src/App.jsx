@@ -16,7 +16,7 @@ import About from "./pages/About/About";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import CreatePost from "./pages/CreatePost/CreatePost";
-// import Search from "./pages/Search/Search";
+import Search from "./pages/Search/Search";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -58,8 +58,8 @@ function App() {
                 path="/posts/edit/:id"
                 element={user ? <EditPost /> : <Navigate to="/login" />}
               /> */}
-              {/* <Route path="/posts/:id" element={<Post />} />
-              <Route path="/search" element={<Search />} /> */}
+              {/* <Route path="/posts/:id" element={<Post />} /> */}
+              <Route path="/search" element={<Search />} />
               <Route
                 path="/login"
                 element={!user ? <Login /> : <Navigate to="/" />}

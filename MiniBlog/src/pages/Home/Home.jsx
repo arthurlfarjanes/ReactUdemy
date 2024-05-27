@@ -7,14 +7,21 @@ import { useState } from 'react'
 import { useFetchDocuments } from '../../hooks/useFetchDocuments'
 
 // Components
+import PostDetail from '../../components/PostDetail/PostDetail'
 
 function Home() {
 
   const [query, setQuery] = useState("")
   const {documents: posts, loading} = useFetchDocuments("posts")
 
+  const navigate = useNavigate()
+
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    if(query) {
+      return navigate(`/search?q=${query}`)
+    }
   }
 
   return (
@@ -32,7 +39,7 @@ function Home() {
       <div>
         {loading && <p>Carregando...</p>}
         {posts && posts.map((post)=> (
-          <h3>{post.title}</h3>
+          <PostDetail key={post.id} post={post} />
         ))}
         {posts && posts.length === 0 && (
           <div className={styles.noposts}>
