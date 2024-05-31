@@ -20,7 +20,7 @@ import Search from "./pages/Search/Search";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
-// import EditPost from "./pages/EditPost/EditPost";
+import EditPost from "./pages/EditPost/EditPost";
 
 // context
 import { AuthProvider } from "./context/AuthContext";
@@ -54,10 +54,10 @@ function App() {
                 path="/posts/create"
                 element={user ? <CreatePost /> : <Navigate to="/login" />}
               />
-              {/* <Route
+              <Route
                 path="/posts/edit/:id"
                 element={user ? <EditPost /> : <Navigate to="/login" />}
-              /> */}
+              />
               <Route path="/posts/:id" element={<Post />} />
               <Route path="/search" element={<Search />} />
               <Route
